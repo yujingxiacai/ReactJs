@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <script src="./developmentJs/react.production.min.js"></script>
+    <script src="./developmentJs/react-dom.production.min.js"></script>
+    <script src="./developmentJs/browser.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+    
+    <script type="text/babel">
+    class Father extends React.Component{
+       constructor(props){
+           super(props);
+           this.state={
+               count: 0,
+               count1: 0,
+               count2:0,
+               all:1000
+           }
+           this.changeF = this.changeF.bind(this);
+       }
+       changeF(a){
+        this.setState({
+                count:this.state.count+a,
+                all:this.state.all-a*3,
+            })
+       }
+        render(){
+            return(
+                <div>
+                    <h3>你好，欢迎到我的世界</h3>
+                    <p>请选择你的属性加成值</p>
+                    <p>你现在总共有{this.state.all}点用于属性加成</p>
+                    <span>护甲：{this.state.count}</span>||<span>攻击力：{this.state.count}</span>||<span>魔抗：{this.state.count}</span>
+                    <Chil  changeC={this.changeF}/>
+                    {/*这里是父组件向子组件传递一个处理函数，来处理父组件的值*/}
+                </div>
+            )
+        }
+    }
+    class Chil extends React.Component{
+        constructor(props){
+            super(props);
+            this.state={
+                count:0
+            }
+            this.change = this.change.bind(this);
+            this.change2= this.change2.bind(this);
+            this.change3 = this.change3.bind(this);
+        }
+        change(){
+            console.log('进入1号加分项+10');
+            this.props.changeC(10)
+        }
+        change2(){
+            console.log('进入2号加分项+100');
+           this.props.changeC(100)
+        }
+        change3(){
+            console.log('进入3号加分项+9');
+           this.props.changeC(9)
+        }
+        render(){
+            return(
+                <div>
+                <button onClick={this.change}>增加10</button>
+                <button onClick={this.change2}>增加100</button>
+                <button onClick={this.change3}>增加9</button>
+                </div>
+            )
+        }
+    }
+    ReactDOM.render(
+    <Father/>,
+    document.getElementById('app')
+  );
+    </script>
+</body>
+</html>
