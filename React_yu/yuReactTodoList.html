@@ -53,18 +53,20 @@
                       timeG:"2018-09-11",
                       timU:'1'
                   }
-                  ]
+                  ],
+                  count:0
               }
               this.programDetial = this.programDetial.bind(this);
               this.timeGet = this.timeGet.bind(this);
               this.timUse = this.timUse.bind(this);
               this.handelSubmit = this.handelSubmit.bind(this);
+              this.ChooseF = this.ChooseF.bind(this);
             }
             componentWillMount(){
-              console.log('TestF:componentWillMount');
+              // console.log('TestF:componentWillMount');
            }
            componentDidUpdate(nextstate){
-              console.log('componentDidUpdate',nextstate);
+              // console.log('componentDidUpdate',nextstate);
             }
             programDetial(e){
                 // console.log(e.target.value)
@@ -79,7 +81,7 @@
               let tg,p,tu;
               let arr = this.state.dataDetail
               let constarr;
-              console.log(this.refs.input1.value,this.refs.input2.value,this.refs.input3.value,arr);
+              // console.log(this.refs.input1.value,this.refs.input2.value,this.refs.input3.value,arr);
               e.preventDefault();
               tg = this.refs.input2.value;
               p = this.refs.input1.value;
@@ -90,14 +92,20 @@
                 timeG:tg,
                 timU:tu
               }
-              console.log(p,tg,tu,constarr);
+              // console.log(p,tg,tu,constarr);
               arr.push(constarr);
-              console.log(arr);
+              // console.log(arr);
               this.setState({
                 dataDetail:arr
               })
               // console.log(this.state.dataDetail)
               
+            }
+            ChooseF(e){
+              console.log(e);
+                this.setState({
+                  isChoose:true,
+                })
             }
               render(){
                 return(
@@ -120,7 +128,8 @@
                       </div>
                       <button type="submit">添加</button>
                     </form>
-                      <ListDetial datad={this.state.dataDetail}/>
+                      <ListDetial datad={this.state.dataDetail} ChooseC={this.ChooseF}/>
+                      <div>总计用时：{this.state.count}</div>
                   </div>
                 )
               }
@@ -136,12 +145,14 @@
             }
             Choose(e){
                 console.log(e.target.value);
+                this.props.ChooseC()
             }
+
             render(){
               
               let List=this.state.dataDe;
-              console.log(List);
-              let aLi=List.map((item,index)=><li keys={index} className="list-time" onClick={this.Choose}><div><input type="radio"></input></div><div>{item.pro}</div><div>{item.timeG}</div><div>{item.timU}</div><div><button>删除</button></div></li>)
+              // console.log(List);
+              let aLi=List.map((item,index)=><li keys={index} style={{background:item.isChoose?'#ff66b3':''}}className="list-time" onClick={this.Choose}><div><input type="radio"></input></div><div>{item.pro}</div><div>{item.timeG}</div><div>{item.timU}</div><div><button>删除</button></div></li>)
               return(
                 <div className="List-body">
                   <div className="title"><div>#</div><div>待办事项</div><div>待办时间</div><div>预计用时</div><div>操作</div></div>
