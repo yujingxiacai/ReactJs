@@ -8,57 +8,146 @@
     <script src="./developmentJs/react-dom.production.min.js"></script>
     <script src="./developmentJs/browser.min.js"></script>
     <title>Document</title>
+    <style>
+        .container{
+            display: none;
+            position: fixed;
+            top:0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, .4)
+        }
+        .Mask{
+            width: 400px;
+            height: 300px;
+            background: #ffffff;
+            position: absolute;
+            top:50%;
+            left: 50%;
+            margin-left: -200px;
+            margin-top: -150px;
+            z-index: 999;
+        }
+        .Mask-header{
+            height: 40px;
+            line-height: 40px;
+            color: black;
+            background: yellow;
+        }
+        .Mask-header-til{
+            float: left;
+            padding: 0 10px;
+        }
+        .Mask-header-but{
+            float:right;
+            padding: 0 20px;
+            cursor: pointer;
+        }
+        
+    </style>
 </head>
 <body>
     <div id="app"></div>
-
     <script type="text/babel">
+
         class Logandreg extends React.Component{
-            consturactor(props){
+            constructor(props){
                 super(props);
                 this.state={
-                    
+                    title: '登录',
+                    isShow: false,
                 }
+                this.closeF = this.closeF.bind(this);
             }
+            loginReg(a){
+                this.setState({
+                        isShow:true,
+                        title:a
+                })
+            }
+            closeF(){
+                this.setState({
+                        isShow:false
+                })
+            }
+
             render(){
                 return(
                     <div>
-                    <button>登录</button><button>注册</button>
+                        <Enter>
+                        <button onClick={this.loginReg.bind(this,'登录')}>登录</button>
+                        <button onClick={this.loginReg.bind(this,'注册')}>注册</button>
+                        </Enter>
+                        <Maskbox  closeC={this.closeF} isShow={this.state.isShow} title={this.state.title}></Maskbox>
                     </div>
                 )
             }
         }
-        class A extends React.Component{
-            consturactor(props){
-                super(props);
-                this.state={
-                    
-                }
-            }
-            render(){
-                
-                return(
-                    <div>
-                        <div>
-                            <div>
-                            <div>登录or注册</div><div>X</div>
-                            </div>
-                            <div>
-                                {this.props.children}
-                            </div>
-                        </div>
+        
+        function Enter(props) { 
+            return(
+                <div>
+                {props.children}
+                </div>
+            )
+        }
+
+        function Maskbox(props){
+            console.log(props);
+            // let content = null;
+            // if(props.title == '登录'){
+            //     content=<Login/>
+            // }else{
+            //     content=<Register/>
+            // }
+            return(
+                <div className="container" style={{display:props.isShow?'block':'none'}}>
+                    <div className="Mask">
+                        <header className="Mask-header">
+                            <div className="Mask-header-til">{props.title}</div>
+                            <div className="Mask-header-but" onClick={props.closeC}>X</div>
+                        </header>
+                        <div className="Mask-content">{props.title =='登录'? <Login/>:<Register/>}</div>
+                        {/*<div className="Mask-content">{content}</div>*/}
+                        
                     </div>
+                </div>
+            )
+        }
+        class Login extends React.Component{
+            render(){
+                return(
+                    <form action="">
+                        用户名:<input type="text"/><br/>
+                        密码: <input type="password"/><br/>
+                        <button type="submit">登录</button>
+                    </form>
                 )
             }
         }
-        ReactDOM.render(){
-            // <Loginr/>,
-            <A>
-            <div>测试</div>
-            <h1>children</h1>
-            <A/>,
-            doucument.getElementById("app")
+        class Register extends React.Component{
+            render(){
+                return(
+
+                <form action="">
+                    用户名:<input type="text"/>
+                    <br/>
+                    密码: <input type="password"/>
+                    <br/>
+                    确认密码: <input type="password"/>
+                    <br/>
+                    邮箱: <input type="text"/>
+                    <br/>
+                    <button type="submit">登录</button>
+                </form>
+                )
+            }
         }
+        ReactDOM.render(
+            <Logandreg/>,
+            document.getElementById("app")
+        )
     </script>
 </body>
 </html>
